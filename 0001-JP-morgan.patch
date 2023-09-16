@@ -1,0 +1,81 @@
+From 2aa4c48a25f2a56ea18fc8417880fed63ef8afed Mon Sep 17 00:00:00 2001
+From: CaptKira <maheshcsk911@gmail.com>
+Date: Sat, 16 Sep 2023 21:22:22 +0530
+Subject: [PATCH] JP morgan
+
+---
+ __pycache__/client3.cpython-311.pyc | Bin 0 -> 1772 bytes
+ client3.py                          |  10 +++++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+ create mode 100644 __pycache__/client3.cpython-311.pyc
+
+diff --git a/__pycache__/client3.cpython-311.pyc b/__pycache__/client3.cpython-311.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..45f100e3039a436283e15bf746a948c6166b694e
+GIT binary patch
+literal 1772
+zcmaJBO-LhG_`PH%nV3Y4Ytp*r@LI4n)~HdowZUznHQh=<bXS*kNH>g`r%p^V*_la~
+zO(W#cLkb>JSlB>Y5L&htFVf5I(ZbSmB7qG91)-<C1?<UFzc(>z7P{}}d*Aoo_y2t}
+zzj?hq2*%W3Je_wT^baFC!+VaL9%6)^AQ{Oxjl}keMQqVF(JtFWPPU7@%zcMMhs*<X
+zQbBfX+nBue%!a57b`RyBf}R7|?a@umqpyDz-N1)Zo(>1Kr#e2Mz2464)su32eOKuY
+z4tj9v(h^)Bbe>SR-EL~H|AOrb^7IYzqR)k>54;}}2f(U>4s>gba|nso#6i(72H^cI
+z*-5Ych-HBe0(4P7z#bX^=>FN&Es4?Y2bP2fppyn@;3;JEz{)CfuHZng#R3w)$oLM_
+z=?)5cUoob|!aG}rk&8}Frq!gB-cofVIy*HxHTfV<wMU;S^388|lz$;p$%|}(6!?tn
+zuum%ho*)-0g3ckp+hYeCSGeKLcKIgTFY)epc5JUnahIHLkg^wTJ6sVLZAE*L+u$HF
+zzVH!Q(o{L0q(n-miLpgVmQtC@<QplSr#dlIvPrX4lMLV>vSdg(RmmE}<aI+$ZktX+
+z%_Y_q+2nJYlB8`~(zip{<Tui)WQ2H=e~?!Vs<Bj<F5peHSzW-^Mm5Mk(s=-cjk6Dv
+z(fF!PH9h{7qDk>v3oBo)eiq+QHEENEQ@KnstUsh-1LVVzcrvZftT8i@dt`bxsWA^O
+zE-@E1*6@TWUII`;C)`}q<Ey;CyI6|--S4l^>Ov#%-rmDTV6xsn)##rpE&R`Q)8jA2
+zn(qEesJgb#*WBS67d{1@D0$IAK(IPml@<VDm9~1vR(O}(q6UEkDk@Poh!uN6B2rd9
+z$Jfa#Ci^=I*-Yp8a|c=1nF&HP_9dGF#CMx1(guMXgRQfFPCGWYrySAPr)>&}L`G7w
+ziA2G<%rY;Nf{RE78HL<O3yyIDiHjD5@wWZw84eW$OD!4ELvNd0N>{U{Ljw=hjM<yl
+z(rIOVLZi^<x?wunw8<~8#%`~fc+twU<q$KRl`=GuFgXPZZt|dGlbSeT^3V#hZaO<!
+zoS;R`Q7{8l%}9pHX;hL;ht(;%2LDfF^^3;h)7%WO9<jO%O6y}6ELJNoXTn?tdN@r#
+z(MI8pB~xDk*s^1cTVn`&N^Ulr$Xl{z6ZvbM)p8)$c!`ID7fQJ0aN>y;x&VWA>}{b7
+z(2F=vxo~VBs@aE5yuR{EWu!7v#XpQb9{v9Q?)?@L_!$e7anm<k8GL-b`o&L+FN4#^
+z!Rf;r&*uJ^JMtbmUU>iPd(l^)S!&EI)q~58;PT7h-Q(chdhlK&c(3kTYxvg6juYYY
+zrhmAFY%UqMVL8@}+&m0Er}fBuBQjt2Oq64lkE_bQ9~!$HE61Ma**sF%tSyV@D=yXA
+zYhb<ZNj5ymnzc>@Z<#Nrs<YMEz1aSZ`f#K%9I5w4>cVtGn66o?<wx9gh_%Ia0<*II
+EA0AM(V*mgE
+
+literal 0
+HcmV?d00001
+
+diff --git a/client3.py b/client3.py
+index 3fc09b7..1da3ea4 100644
+--- a/client3.py
++++ b/client3.py
+@@ -35,14 +35,16 @@ def getDataPoint(quote):
+     stock = quote['stock']
+     bid_price = float(quote['top_bid']['price'])
+     ask_price = float(quote['top_ask']['price'])
+-    price = bid_price
++    price = (bid_price+ask_price)/2
+     return stock, bid_price, ask_price, price
+ 
+ 
+ def getRatio(price_a, price_b):
+     """ Get ratio of price_a and price_b """
+     """ ------------- Update this function ------------- """
+-    return 1
++    if(price_b==0):
++        return
++    return price_a/price_b
+ 
+ 
+ # Main
+@@ -52,8 +54,10 @@ if __name__ == "__main__":
+         quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+ 
+         """ ----------- Update to get the ratio --------------- """
++        prices={}
+         for quote in quotes:
+             stock, bid_price, ask_price, price = getDataPoint(quote)
++            prices[stock]=price
+             print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+ 
+-        print("Ratio %s" % getRatio(price, price))
++        print("Ratio %s" % getRatio(prices["ABC"], prices["DEF"]))
+-- 
+2.42.0.windows.2
+
